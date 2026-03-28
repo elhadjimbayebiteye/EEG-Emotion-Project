@@ -40,7 +40,7 @@ class ChannelGate(nn.Module):
 
 
 # ==============================
-# 2) Encodeur temporel (CNN résiduel + LayerNorm finale)
+# 2) Encodeur temporel (CNN + LayerNorm )
 # ==============================
 class TemporalCNN(nn.Module):
     """
@@ -102,7 +102,7 @@ class TemporalCNN(nn.Module):
         x = x + self.block2(x)           # résiduel
         x = x + self.block3(x)           # résiduel
 
-        # LayerNorm sur l'axe E (on transpose B,E,T -> B,T,E puis retour)
+        # LayerNorm 
         x = self.final_norm(x.transpose(1, 2)).transpose(1, 2)
         return x                         # [B, E, T/2]
 

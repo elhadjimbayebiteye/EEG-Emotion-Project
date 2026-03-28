@@ -1,0 +1,24 @@
+# Données et résultats lourds
+data/
+logs/
+models/
+plots/
+
+# Environnements et caches
+venv/
+__pycache__/
+.ipynb_checkpoints/
+
+# Fichiers Python compilés
+*.pyc
+
+# Fichiers lourds / modèles
+*.pth
+*.pt
+*.npz
+*.npy
+*.ckpt
+*.log
+
+# Système
+.DS_Store

@@ -32,7 +32,7 @@ class ChannelGate(nn.Module):
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         # x : [B, C, T]
-        desc = x.abs().mean(dim=-1)                 # [B, C]  moyenne temporelle de |signal|
+        desc = x.abs().mean(dim=-1)                 # [B, C]  moyenne temporelle de signal
         logits = self.mlp(desc)                     # [B, C]
         weights = torch.softmax(logits, dim=-1)     # [B, C]  somme=1 par échantillon
         self.last_channel_weights = weights.detach().cpu()
@@ -97,10 +97,10 @@ class TemporalCNN(nn.Module):
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         # x : [B, C, T]
         x = self.stem(x)                 # [B, E, T]
-        x = x + self.block1(x)           # résiduel léger
+        x = x + self.block1(x)          
         x = self.pool1(x)                # [B, E, T/2]
-        x = x + self.block2(x)           # résiduel
-        x = x + self.block3(x)           # résiduel
+        x = x + self.block2(x)           
+        x = x + self.block3(x)          
 
         # LayerNorm 
         x = self.final_norm(x.transpose(1, 2)).transpose(1, 2)
@@ -120,7 +120,7 @@ class TinyTemporalAttention(nn.Module):
         super().__init__()
         self.mha = nn.MultiheadAttention(embed_dim, num_heads, dropout=pdrop, batch_first=False)
         self.norm = nn.LayerNorm(embed_dim)
-        self.dropout = nn.Dropout(pdrop * 1.5)  # léger sur-régularisation
+        self.dropout = nn.Dropout(pdrop * 1.5)  
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         # x : [B, E, T]
@@ -211,7 +211,7 @@ class EEGFormerHybridV2(nn.Module):
         """
         if self.gate.last_channel_weights is None:
             return None
-        return self.gate.last_channel_weights.mean(dim=0)  # [C] (CPU)
+        return self.gate.last_channel_weights.mean(dim=0) 
 
     def get_attention_weights_per_sample(self) -> Optional[torch.Tensor]:
         """

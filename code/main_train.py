@@ -2,7 +2,6 @@
 Pipeline complet :
 - Split global : 80% train / 20% test
 - Normalisation médiane/IQR sur train
-- Split interne : 10% des 80% pour validation (72/8/20)
 - Entraînement modèle 62 canaux
 - Sélection d'électrodes par attention
 - Entraînement et test pour 48, 32, 16, 8, 6, 4, 2 électrodes
